@@ -1,7 +1,54 @@
+import { Plan } from "@prisma/client";
 import { ActionFunction, json, redirect, useActionData } from "remix";
 
+import { db } from "~/utils/db.server";
+
+function validatePlanName(content: string) {
+  if (content.length < 4) {
+    return `The plan name is too short.`;
+  }
+}
+
+type PlanActionData = {
+  formError?: string;
+  fieldErrors?: {
+    name: string | undefined;
+  };
+  // fields are included so that the form can be re-rendered with the values
+  // from the server in the event that JavaScript fails to load
+  fields?: {
+    name: string;
+  };
+};
+
+const badRequest = (data: PlanActionData) => json(data, { status: 400 });
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const name = form.get("name");
+
+  // we do this type check to be extra sure and to make TypeScript happy
+  if (typeof name !== "string") {
+    return badRequest({
+      formError: `Invalid plan name`,
+    });
+  }
+
+  const fieldErrors = {
+    name: validatePlanName(name),
+  };
+  const fields = { name };
+
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return badRequest({ fieldErrors, fields });
+  }
+
+  const plan = await db.plan.create({ data: fields });
+  return redirect(`/plans/${plan.id}`);
+};
 
 export default function NewPlanRoute() {
+  const actionData = useActionData<PlanActionData>();
 
   return (
     <div>
@@ -12,11 +59,26 @@ export default function NewPlanRoute() {
             Plan Name:{" "}
             <input
               type="text"
+              defaultValue={actionData?.fields?.name}
+              aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
+              aria-errormessage={
+                actionData?.fieldErrors?.name ? "name-error" : undefined
+              }
               name="name"
             />
           </label>
+          {actionData?.fieldErrors?.name ? (
+            <p className="form-validation-error" role="alert" id="name-error">
+              {actionData.fieldErrors.name}
+            </p>
+          ) : null}
         </div>
         <div>
+          {actionData?.formError ? (
+            <p className="form-validation-error" role="alert">
+              {actionData.formError}
+            </p>
+          ) : null}
           <button type="submit" className="button">
             Add
           </button>
