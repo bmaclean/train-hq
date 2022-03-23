@@ -15,4 +15,22 @@ model Plan {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   name       String
+  users      UserPlan[]
+}
+
+model UserPlan {
+  @@id([userId, planId])
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId String
+  plan   Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  username     String   @unique
+  passwordHash String
+  userPlans    UserPlan[]
 }

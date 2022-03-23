@@ -2,11 +2,14 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 async function seed() {
-  await Promise.all(
-    getPlans().map((plan) => {
+  await Promise.all([
+    ...getPlans().map((plan) => {
       return db.plan.create({ data: plan });
-    })
-  );
+    }),
+    ...getUsers().map((user) => {
+      return db.user.create({ data: user });
+    }),
+  ]);
 }
 
 seed();
@@ -21,6 +24,16 @@ function getPlans(): Prisma.PlanCreateInput[] {
     },
     {
       name: "5K Beast",
+    },
+  ];
+}
+
+function getUsers(): Prisma.UserCreateInput[] {
+  return [
+    {
+      username: "bmaclean",
+      passwordHash:
+        "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
     },
   ];
 }
