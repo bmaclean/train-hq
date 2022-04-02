@@ -2,6 +2,7 @@ import { Plan } from "@prisma/client";
 import { ActionFunction, json, redirect, useActionData } from "remix";
 
 import { db } from "~/utils/db.server";
+import { badRequest } from "~/utils/response.server";
 
 function validatePlanName(content: string) {
   if (content.length < 4) {
@@ -21,15 +22,13 @@ type PlanActionData = {
   };
 };
 
-const badRequest = (data: PlanActionData) => json(data, { status: 400 });
-
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const name = form.get("name");
 
   // we do this type check to be extra sure and to make TypeScript happy
   if (typeof name !== "string") {
-    return badRequest({
+    return badRequest<PlanActionData>({
       formError: `Invalid plan name`,
     });
   }
