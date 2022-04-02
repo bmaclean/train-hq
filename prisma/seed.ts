@@ -33,6 +33,7 @@ function getUsers(): Prisma.UserCreateInput[] {
     {
       username: "bmaclean",
       passwordHash:
+        // "twixrox"
         "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
     },
   ];

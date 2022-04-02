@@ -1,5 +1,6 @@
   :root {
     --hs-links: 75 100%;
+    /* TODO: palette based on plan / activity type? */
     --color-foreground: hsl(75, 73%, 19%);
     --color-background: hsl(0, 0%, 100%);
     --color-links: hsl(var(--hs-links) 50%);
