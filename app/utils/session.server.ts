@@ -8,11 +8,6 @@ interface LoginForm {
   password: string;
 }
 
-interface UserSessionParams {
-  userId: string;
-  redirectTo: URL["pathname"];
-}
-
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
   throw new Error("SESSION_SECRET must be set");
@@ -32,7 +27,56 @@ const storage = createCookieSessionStorage({
   },
 });
 
-export async function createUserSession({ userId, redirectTo }: UserSessionParams) {
+// Update app/utils/session.server.ts to get the userId from the session.
+// In my solution I create three functions:
+// getUserSession(request: Request),
+// getUserId(request: Request)
+// and requireUserId(request: Request, redirectTo: string)
+
+type RedirectPath = URL["pathname"];
+
+async function getUserSession(request: Request) {
+  return storage.getSession(request.headers.get("Cookie"));
+}
+
+export async function getUserId(request: Request) {
+  const session = await getUserSession(request);
+
+  const userId = session.get("trainhq_session");
+
+  if (!userId || typeof userId !== "string") return null;
+  return userId;
+}
+
+export async function requireUserId(
+  request: Request,
+  { redirectTo }: { redirectTo: RedirectPath }
+) {
+  const session = await getUserSession(request);
+  const userId = session.get("userId");
+  // TODO: verify corresponding valid session for ID
+  if (!userId || typeof userId !== "string") {
+    const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
+    // Remix will catch that thrown response and send it back to the client.
+    // It's a great way to "exit early" in abstractions like this so users
+    // of our requireUserId function can just assume that the return will
+    // always give us the userId and don't need to worry about what happens
+    // if there isn't a userId because the response is thrown which stops
+    // their code execution
+    throw redirect(`/login?${searchParams}`);
+  }
+  return userId;
+}
+
+interface UserSessionParams {
+  userId: string;
+  redirectTo: RedirectPath;
+}
+
+export async function createUserSession({
+  userId,
+  redirectTo,
+}: UserSessionParams) {
   const { getSession, commitSession } = storage;
 
   const session = await getSession();

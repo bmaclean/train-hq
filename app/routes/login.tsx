@@ -74,17 +74,14 @@ export const action: ActionFunction = async ({ request }) => {
       }
     }
     case "register": {
-      try {
-        // create the user
-        const user = register({ username, password });
-        // TODO: create their session and redirect to /plans
-        return user;
-      } catch (e) {
-        return badRequest({
-          fields,
-          formError: `User with username ${username} already exists`,
-        });
-      }
+      // create the user
+      const user = register({ username, password });
+      // TODO: create their session and redirect to /plans
+      return user;
+      // return badRequest({
+      //   fields,
+      //   formError: `User with username ${username} already exists`,
+      // });
     }
     default: {
       return badRequest({

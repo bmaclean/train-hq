@@ -1,8 +1,9 @@
-import { Plan } from "@prisma/client";
+import { Plan, Prisma } from "@prisma/client";
 import { ActionFunction, json, redirect, useActionData } from "remix";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/response.server";
+import { requireUserId } from "~/utils/session.server";
 
 function validatePlanName(content: string) {
   if (content.length < 4) {
@@ -25,6 +26,7 @@ type PlanActionData = {
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const name = form.get("name");
+  const userId = await requireUserId(request, { redirectTo: "/login" });
 
   // we do this type check to be extra sure and to make TypeScript happy
   if (typeof name !== "string") {
@@ -42,7 +44,9 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields });
   }
 
-  const plan = await db.plan.create({ data: fields });
+  const plan = await db.plan.create({
+    data: { ...fields, createdById: userId },
+  });
   return redirect(`/plans/${plan.id}`);
 };
 

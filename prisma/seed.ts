@@ -15,17 +15,7 @@ async function seed() {
 seed();
 
 function getPlans(): Prisma.PlanCreateInput[] {
-  return [
-    {
-      name: "Couch to 5K",
-    },
-    {
-      name: "Sub-55 Minute 10K",
-    },
-    {
-      name: "5K Beast",
-    },
-  ];
+  return [];
 }
 
 function getUsers(): Prisma.UserCreateInput[] {

@@ -11,11 +11,13 @@ datasource db {
 }
 
 model Plan {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  users      UserPlan[]
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String
+  createdBy   User @relation(fields: [createdById], references: [id], onDelete: NoAction)
+  name        String
+  users       UserPlan[]
 }
 
 model UserPlan {
@@ -33,4 +35,5 @@ model User {
   username     String   @unique
   passwordHash String
   userPlans    UserPlan[]
+  createdPlans Plan[]
 }
