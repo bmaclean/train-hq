@@ -3,7 +3,7 @@ import { ActionFunction, json, redirect, useActionData } from "remix";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/response.server";
-import { requireUserId } from "~/utils/session.server";
+import { requireAuth } from "~/utils/session.server";
 
 function validatePlanName(content: string) {
   if (content.length < 4) {
@@ -26,7 +26,7 @@ type PlanActionData = {
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const name = form.get("name");
-  const userId = await requireUserId(request, { redirectTo: "/login" });
+  const userId = await requireAuth(request, { redirectTo: "/login" });
 
   // we do this type check to be extra sure and to make TypeScript happy
   if (typeof name !== "string") {

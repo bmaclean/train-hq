@@ -48,12 +48,12 @@ export async function getUserId(request: Request) {
   return userId;
 }
 
-export async function requireUserId(
+export async function requireAuth(
   request: Request,
   { redirectTo }: { redirectTo: RedirectPath }
 ) {
   const session = await getUserSession(request);
-  const userId = session.get("userId");
+  const userId = session.get("trainhq_session");
   // TODO: verify corresponding valid session for ID
   if (!userId || typeof userId !== "string") {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
@@ -65,6 +65,7 @@ export async function requireUserId(
     // their code execution
     throw redirect(`/login?${searchParams}`);
   }
+
   return userId;
 }
 
@@ -80,12 +81,29 @@ export async function createUserSession({
   const { getSession, commitSession } = storage;
 
   const session = await getSession();
-  session.set("userId", userId);
+  session.set("trainhq_session", userId);
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
   });
+}
+
+export async function getUserFromSession(request: Request) {
+  const userId = await getUserId(request);
+  if (typeof userId !== "string") {
+    return null;
+  }
+
+  try {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      select: { id: true, username: true },
+    });
+    return user;
+  } catch {
+    throw logout(request);
+  }
 }
 
 export async function login({ username, password }: LoginForm) {
@@ -98,6 +116,19 @@ export async function login({ username, password }: LoginForm) {
       ? userResult
       : null;
   }
+}
+
+export async function logout(request: Request) {
+  const { destroySession } = storage;
+  const userSession = await getUserSession(request);
+
+  // TODO: "if user is logged in based on session" ?
+  // or just destroy the session data regardless ?
+  return redirect("/login", {
+    headers: {
+      "Set-Cookie": await destroySession(userSession),
+    },
+  });
 }
 
 interface RegistrationForm {
