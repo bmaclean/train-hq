@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from "remix";
 import type { MetaFunction, LinksFunction } from "remix";
 
@@ -63,6 +64,24 @@ export default function App() {
   return (
     <Document>
       <Outlet />
+    </Document>
+  );
+}
+
+/**
+ * The exported CatchBoundary will render when the action or loader throws a
+ * Response object.
+ */
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <div className="error-container">
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+      </div>
     </Document>
   );
 }
