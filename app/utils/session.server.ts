@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { createCookieSessionStorage, redirect } from "remix";
+import { createCookieSessionStorage, json, redirect } from "remix";
 
 import { db } from "~/utils/db.server";
 
@@ -136,14 +136,17 @@ interface RegistrationForm {
   password: string;
 }
 
-// TODO:
-const UserExistsError = Error;
-
 export async function register({ username, password }: RegistrationForm) {
   const userExists = await db.user.findFirst({
     where: { username },
   });
   if (userExists) {
-    throw UserExistsError;
+    throw json("This username is taken", 409);
+  } else {
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await db.user.create({
+      data: { username, passwordHash },
+    });
+    return { id: user.id, username };
   }
 }
