@@ -74,15 +74,21 @@ export const action: ActionFunction = async ({ request }) => {
       }
     }
     case "register": {
-      const user = await register({ username, password });
-      if (!user) {
-        return badRequest({
-          fields,
-          formError: `Something went wrong trying to create a new user.`,
-        });
-      }
+      try {
+        const user = await register({ username, password });
+        if (!user) {
+          return badRequest({
+            fields,
+            formError: `Something went wrong trying to create a new user.`,
+          });
+        }
 
-      return createUserSession({ userId: user.id, redirectTo });
+        return createUserSession({ userId: user.id, redirectTo });
+      } catch (e) {
+        if (e instanceof Response && e.status === 409) {
+          return e;
+        } else throw e;
+      }
     }
     default: {
       return badRequest({
@@ -206,5 +212,3 @@ export default function Login() {
     </div>
   );
 }
-
-
