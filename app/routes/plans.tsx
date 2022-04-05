@@ -1,3 +1,10 @@
+/**
+ * This acts as a root module for all plans/ paths (includes plans/index)
+ *
+ * The layout for these views is defined here. The contents of the request
+ * route will be rendered by <Outlet />.
+ */
+
 import { Link, Outlet, json, useLoaderData } from "remix";
 import type { LinksFunction, LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";

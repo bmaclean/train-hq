@@ -8,3 +8,12 @@ export default function PlansIndexRoute() {
     </ul>
   );
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="error-container">
+      <p>There was a problem loading available plans.</p>
+      <p>{error.message}</p>
+    </div>
+  );
+}

@@ -90,3 +90,12 @@ export default function NewPlanRoute() {
     </div>
   );
 }
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className="error-container">
+      <p>There was a problem preparing a new plan.</p>
+      <p>{error.message}</p>
+    </div>
+  );
+}

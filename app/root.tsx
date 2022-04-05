@@ -37,18 +37,48 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({ title: "New Remix App" });
 
-export default function App() {
+function Document({
+  children,
+  title = `Train HQ`,
+}: {
+  children: React.ReactNode;
+  title?: string;
+}) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <title>Train HQ</title>
+        <title>{title}</title>
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  );
+}
+
+/**
+ * Remix will render exported ErrorBoundary components in place of
+ * the page when an unexpected error occurs
+ */
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document title="Ah Shit">
+      <div className="error-container">
+        <h1>There was an error with your request.</h1>
+        <h2>Our team has been notified, and this will be resolved shortly.</h2>
+        <pre>{error.message}</pre>
+      </div>
+    </Document>
   );
 }
