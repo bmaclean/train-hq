@@ -1,4 +1,9 @@
-import { ActionFunction, LinksFunction, useActionData } from "remix";
+import {
+  ActionFunction,
+  LinksFunction,
+  MetaFunction,
+  useActionData,
+} from "remix";
 import { Link, useSearchParams } from "remix";
 
 import { createUserSession, login, register } from "~/utils/session.server";
@@ -30,6 +35,13 @@ function validateUrl(url: any) {
 
   return "/plans";
 }
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Train HQ | Login",
+    description: "Login to start tracking your training progress!",
+  };
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();

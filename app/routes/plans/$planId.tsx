@@ -4,6 +4,7 @@ import {
   useParams,
   useCatch,
   ActionFunction,
+  MetaFunction,
 } from "remix";
 import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
@@ -53,6 +54,24 @@ export const action: ActionFunction = async ({ request, params }) => {
   });
 
   return json("Plan liked successfully", 200);
+};
+
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: LoaderData | undefined;
+}) => {
+  if (!data?.plan) {
+    return {
+      title: "Not Found",
+      description: "No plan found",
+    };
+  }
+
+  return {
+    title: `"${data.plan.name}"`,
+    description: `Begin training with the ${data.plan.name} training plan`,
+  };
 };
 
 export default function PlanRoute() {

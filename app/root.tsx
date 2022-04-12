@@ -36,7 +36,20 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({ title: "New Remix App" });
+export const meta: MetaFunction = () => {
+  const description = `Craft your plan and meet your training goals.`;
+  return {
+    charset: "utf-8",
+    description,
+    keywords: "Train,hq,training,trainhq",
+    "twitter:image": "",
+    "twitter:card": "summary_large_image",
+    "twitter:creator": "@trainhq",
+    "twitter:site": "@trainhq",
+    "twitter:title": "Train HQ",
+    "twitter:description": description,
+  };
+};
 
 function Document({
   children,
@@ -48,9 +61,10 @@ function Document({
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
+        <Meta />
         <title>{title}</title>
         <Links />
+        {/* <Scripts /> */}
       </head>
       <body>
         {children}
