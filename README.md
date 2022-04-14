@@ -1,3 +1,8 @@
+# Train HQ
+
+Train HQ is an all-in-one platform for creating and managing your training schedule and meet your training goals.
+
+
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)

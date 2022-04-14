@@ -45,7 +45,12 @@ export default function PlansRoute() {
       <header className="plans-header">
         <div className="container">
           <h1 className="home-link">
-            <Link to="/" title="Train HQ" aria-label="Train Hq">
+            <Link
+              prefetch="intent"
+              to="/"
+              title="Train HQ"
+              aria-label="Train Hq"
+            >
               Train HQ
             </Link>
           </h1>
@@ -60,7 +65,9 @@ export default function PlansRoute() {
               </Form>
             </div>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link prefetch="intent" to="/login">
+              Login
+            </Link>
           )}
         </div>
       </header>
@@ -71,11 +78,13 @@ export default function PlansRoute() {
             <ul>
               {data.plans.map((plan) => (
                 <li key={plan.id}>
-                  <Link to={plan.id}>{plan.name}</Link>
+                  <Link prefetch="intent" to={plan.id}>
+                    {plan.name}
+                  </Link>
                 </li>
               ))}
             </ul>
-            <Link to="new" className="button">
+            <Link prefetch="intent" to="new" className="button">
               Add your own
             </Link>
           </div>

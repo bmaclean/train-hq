@@ -17,7 +17,9 @@ export default function Index() {
         <nav>
           <ul>
             <li>
-              <Link to="plans">Plans</Link>
+              <Link prefetch="intent" to="plans">
+                Plans
+              </Link>
             </li>
           </ul>
         </nav>
