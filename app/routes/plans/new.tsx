@@ -1,5 +1,5 @@
 import { Plan, Prisma } from "@prisma/client";
-import { ActionFunction, json, redirect, useActionData, useCatch } from "remix";
+import { ActionFunction, Form, json, redirect, useActionData, useCatch } from "remix";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/response.server";
@@ -56,7 +56,7 @@ export default function NewPlanRoute() {
   return (
     <div>
       <h3>Create your plan</h3>
-      <form method="post">
+      <Form method="post">
         <div>
           <label>
             Plan Name:{" "}
@@ -86,7 +86,7 @@ export default function NewPlanRoute() {
             Add
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

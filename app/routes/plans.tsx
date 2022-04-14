@@ -5,7 +5,7 @@
  * route will be rendered by <Outlet />.
  */
 
-import { Link, Outlet, json, useLoaderData } from "remix";
+import { Link, Outlet, json, useLoaderData, Form } from "remix";
 import type { LinksFunction, LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
@@ -53,11 +53,11 @@ export default function PlansRoute() {
           {data.user ? (
             <div className="user-info">
               <span>{`Hi ${data.user.username}`}</span>
-              <form action="/logout" method="post">
+              <Form action="/logout" method="post">
                 <button type="submit" className="button">
                   Logout
                 </button>
-              </form>
+              </Form>
             </div>
           ) : (
             <Link to="/login">Login</Link>

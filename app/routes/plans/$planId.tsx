@@ -5,6 +5,7 @@ import {
   useCatch,
   ActionFunction,
   MetaFunction,
+  Form,
 } from "remix";
 import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
@@ -81,11 +82,11 @@ export default function PlanRoute() {
     <div>
       <h2>
         {plan?.name}
-        <form method="post" className="like-button-form">
+        <Form method="post" className="like-button-form">
           <input type="hidden" name="_method" value="like" />
           <input type="hidden" name="planId" value={plan?.id} />
           <LikeButton liked={false} type="submit" />
-        </form>
+        </Form>
       </h2>
     </div>
   );

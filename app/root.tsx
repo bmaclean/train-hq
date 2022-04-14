@@ -64,7 +64,7 @@ function Document({
         <Meta />
         <title>{title}</title>
         <Links />
-        {/* <Scripts /> */}
+        <Scripts />
       </head>
       <body>
         {children}
