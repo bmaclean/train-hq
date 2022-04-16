@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HeartPulse, HeartPulseFill } from "react-bootstrap-icons";
 
-interface LikeButtonProps
+export interface LikeButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   liked: boolean;
 }

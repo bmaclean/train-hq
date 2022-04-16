@@ -3,7 +3,6 @@ import {
   useLoaderData,
   useParams,
   useCatch,
-  ActionFunction,
   MetaFunction,
   Form,
 } from "remix";
@@ -11,12 +10,12 @@ import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
-import { LikeButton } from "~/components/ui/LikeButton";
-import { requireAuth } from "~/utils/session.server";
+import { PlanLikeButton } from "~/components/ui/PlanLikeButton";
+import PlanInfo from "~/components/ui/PlanInfo";
 
-type LoaderData = { plan: Plan | null };
+type LoaderData = { plan: Plan };
 export const loader: LoaderFunction = async ({ params: { planId } }) => {
-  const data: LoaderData = {
+  const data = {
     plan: await db.plan.findUnique({ where: { id: planId } }),
   };
 
@@ -27,34 +26,6 @@ export const loader: LoaderFunction = async ({ params: { planId } }) => {
   }
 
   return json(data);
-};
-
-export const action: ActionFunction = async ({ request, params }) => {
-  const form = await request.formData();
-
-  if (form.get("_method") !== "like") {
-    throw new Response(`The _method ${form.get("_method")} is not supported`, {
-      status: 423,
-    });
-  }
-
-  const userId = await requireAuth(request, { redirectTo: request.referrer });
-  const plan = await db.plan.findUnique({
-    where: { id: params.planId },
-    include: { likes: true },
-  });
-
-  if (!plan) {
-    return json("You can't like a plan that doesn't exist", 404);
-  } else if (plan.likes.map((like) => like.userId).includes(userId)) {
-    return json("A plan can only be liked once", 400);
-  }
-
-  await db.userLikes.create({
-    data: { userId: userId, likedPlanId: plan.id },
-  });
-
-  return json("Plan liked successfully", 200);
 };
 
 export const meta: MetaFunction = ({
@@ -78,18 +49,7 @@ export const meta: MetaFunction = ({
 export default function PlanRoute() {
   const { plan } = useLoaderData<LoaderData>();
 
-  return (
-    <div>
-      <h2>
-        {plan?.name}
-        <Form method="post" className="like-button-form">
-          <input type="hidden" name="_method" value="like" />
-          <input type="hidden" name="planId" value={plan?.id} />
-          <LikeButton liked={false} type="submit" />
-        </Form>
-      </h2>
-    </div>
-  );
+  return <PlanInfo plan={plan} />;
 }
 
 /**
