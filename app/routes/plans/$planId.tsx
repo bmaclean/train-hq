@@ -1,17 +1,9 @@
-import {
-  json,
-  useLoaderData,
-  useParams,
-  useCatch,
-  MetaFunction,
-  Form,
-} from "remix";
+import { json, useLoaderData, useParams, useCatch, MetaFunction } from "remix";
 import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
-import { PlanLikeButton } from "~/components/ui/PlanLikeButton";
-import PlanInfo from "~/components/ui/PlanInfo";
+import { PlanInfo } from "~/components/pages/plans";
 
 type LoaderData = { plan: Plan };
 export const loader: LoaderFunction = async ({ params: { planId } }) => {

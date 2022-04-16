@@ -1,11 +1,11 @@
 import { Plan } from "@prisma/client";
-import { PlanLikeButton } from "./PlanLikeButton";
+import { PlanLikeButton } from "./";
 
 interface PlanInfoProps {
   plan: Plan;
 }
 
-export default function PlanInfo({ plan }: PlanInfoProps) {
+export function PlanInfo({ plan }: PlanInfoProps) {
   return (
     <div>
       <h2>

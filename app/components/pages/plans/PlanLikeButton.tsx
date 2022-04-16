@@ -1,7 +1,8 @@
 import { Plan } from "@prisma/client";
 import { useEffect } from "react";
 import { useFetcher } from "remix";
-import { LikeButton, LikeButtonProps } from "./LikeButton";
+
+import { LikeButton, LikeButtonProps } from "~/components/ui";
 
 interface PlanLikeButtonProps extends LikeButtonProps {
   plan: Plan;
