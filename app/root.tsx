@@ -9,26 +9,15 @@ import {
 } from "remix";
 import type { MetaFunction, LinksFunction } from "remix";
 
-import globalStyles from "~/styles/global.css";
-import globalLargeStyles from "~/styles/global-large.css";
-import globalMedStyles from "~/styles/global-medium.css";
+import styles from "./styles/app.css";
+import { ErrorContainer } from "./components/ui";
 
 /**
  * CSS files can be cached long-term and your CSS is naturally code-split
  */
 export const links: LinksFunction = () => {
   return [
-    { rel: "stylesheet", href: globalStyles },
-    {
-      rel: "stylesheet",
-      href: globalLargeStyles,
-      media: "print, (min-width: 1024px)",
-    },
-    {
-      rel: "stylesheet",
-      href: globalMedStyles,
-      media: "print, (min-width: 640px)",
-    },
+    { rel: "stylesheet", href: styles },
     {
       rel: "stylesheet",
       href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap",
@@ -65,6 +54,7 @@ function Document({
         <title>{title}</title>
         <Links />
         <Scripts />
+        <ScrollRestoration />
       </head>
       <body>
         {children}
@@ -91,11 +81,11 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <div className="error-container">
+      <ErrorContainer>
         <h1>
           {caught.status} {caught.statusText}
         </h1>
-      </div>
+      </ErrorContainer>
     </Document>
   );
 }
@@ -107,11 +97,11 @@ export function CatchBoundary() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Ah Shit">
-      <div className="error-container">
+      <ErrorContainer>
         <h1>There was an error with your request.</h1>
         <h2>Our team has been notified, and this will be resolved shortly.</h2>
         <pre>{error.message}</pre>
-      </div>
+      </ErrorContainer>
     </Document>
   );
 }

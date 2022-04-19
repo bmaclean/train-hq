@@ -1,19 +1,9 @@
-import {
-  ActionFunction,
-  Form,
-  LinksFunction,
-  MetaFunction,
-  useActionData,
-} from "remix";
+import { ActionFunction, Form, MetaFunction, useActionData } from "remix";
 import { Link, useSearchParams } from "remix";
 
 import { createUserSession, login, register } from "~/utils/session.server";
-import stylesUrl from "~/styles/login.css";
 import { badRequest } from "~/utils/response.server";
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
+import { Button } from "~/components/ui/Button";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -130,8 +120,11 @@ export default function Login() {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className="container">
-      <div className="content">
+    <div
+      className="flex flex-col items-center justify-center"
+      style={{ minHeight: "inherit" }}
+    >
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-50 shadow-md w-96 max-w-full rounded-md">
         <h1>Login</h1>
         <Form method="post">
           <input
@@ -167,8 +160,9 @@ export default function Login() {
               }
             />
             {actionData?.fieldErrors?.username ? (
+              // TODO: Input component w/ validation errors (<FormValidationError>)
               <p
-                className="form-validation-error"
+                className="m-0 mt-1 text-red-500 text-xs"
                 role="alert"
                 id="username-error"
               >
@@ -192,7 +186,7 @@ export default function Login() {
             />
             {actionData?.fieldErrors?.password ? (
               <p
-                className="form-validation-error"
+                className="m-0 mt-1 text-red-500 text-xs"
                 role="alert"
                 id="password-error"
               >
@@ -202,17 +196,15 @@ export default function Login() {
           </div>
           <div id="form-error-message">
             {actionData?.formError ? (
-              <p className="form-validation-error" role="alert">
+              <p className="m-0 mt-1 text-red-500 text-xs" role="alert">
                 {actionData.formError}
               </p>
             ) : null}
           </div>
-          <button type="submit" className="button">
-            Submit
-          </button>
+          <Button type="submit">Submit</Button>
         </Form>
       </div>
-      <div className="links">
+      <div>
         <ul>
           <li>
             <Link prefetch="intent" to="/">

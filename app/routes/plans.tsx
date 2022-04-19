@@ -6,18 +6,15 @@
  */
 
 import { Link, Outlet, json, useLoaderData, Form } from "remix";
-import type { LinksFunction, LoaderFunction } from "remix";
+import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
-import plansStyles from "~/styles/plans.css";
 import { getUserFromSession } from "~/utils/session.server";
 import { db } from "~/utils/db.server";
+import { Container } from "~/components/layout";
+import { Button } from "~/components/ui/Button";
 
 type PlanPreview = Pick<Plan, "id" | "name">;
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: plansStyles }];
-};
 
 type LoaderData = {
   plans: Array<PlanPreview>;
@@ -41,10 +38,10 @@ export default function PlansRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <div className="plans-layout">
-      <header className="plans-header">
-        <div className="container">
-          <h1 className="home-link">
+    <div>
+      <header>
+        <Container className="flex-row justify-between items-center">
+          <h1>
             <Link
               prefetch="intent"
               to="/"
@@ -56,12 +53,10 @@ export default function PlansRoute() {
           </h1>
 
           {data.user ? (
-            <div className="user-info">
+            <div className="flex gap-4 items-center whitespace-nowrap">
               <span>{`Hi ${data.user.username}`}</span>
               <Form action="/logout" method="post">
-                <button type="submit" className="button">
-                  Logout
-                </button>
+                <Button>Logout</Button>
               </Form>
             </div>
           ) : (
@@ -69,11 +64,11 @@ export default function PlansRoute() {
               Login
             </Link>
           )}
-        </div>
+        </Container>
       </header>
-      <main className="plans-main">
-        <div className="container">
-          <div className="plans-list">
+      <main>
+        <Container>
+          <div>
             <p>Here are a few plans to check out:</p>
             <ul>
               {data.plans.map((plan) => (
@@ -84,14 +79,14 @@ export default function PlansRoute() {
                 </li>
               ))}
             </ul>
-            <Link prefetch="intent" to="new" className="button">
+            <Link prefetch="intent" to="new">
               Add your own
             </Link>
           </div>
-          <div className="plans-outlet">
+          <div>
             <Outlet />
           </div>
-        </div>
+        </Container>
       </main>
     </div>
   );

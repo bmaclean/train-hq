@@ -1,3 +1,5 @@
+import { ErrorContainer } from "~/components/ui";
+
 export default function PlansIndexRoute() {
   return (
     <ul>
@@ -11,9 +13,9 @@ export default function PlansIndexRoute() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <div className="error-container">
+    <ErrorContainer>
       <p>There was a problem loading available plans.</p>
       <p>{error.message}</p>
-    </div>
+    </ErrorContainer>
   );
 }

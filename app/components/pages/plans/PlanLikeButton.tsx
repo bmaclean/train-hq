@@ -22,7 +22,7 @@ export function PlanLikeButton({
   }, [like]);
 
   return (
-    <like.Form action="likes" method="post" className="like-button-form">
+    <like.Form action="likes" method="post" className="w-auto inline-flex">
       {/* TODO: `delete` method if currently liked */}
       <input type="hidden" name="planId" value={plan?.id} />
       <LikeButton type="submit" {...likeButtonProps} />

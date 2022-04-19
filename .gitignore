@@ -7,3 +7,5 @@ node_modules
 
 /prisma/dev.db
 .vscode/settings.json
+# generated CSS
+app/styles/app.css
