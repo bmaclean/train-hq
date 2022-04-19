@@ -4,6 +4,7 @@ import type { Plan } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
 import { PlanInfo } from "~/components/pages/plans";
+import { ErrorContainer } from "~/components/ui";
 
 type LoaderData = { plan: Plan };
 export const loader: LoaderFunction = async ({ params: { planId } }) => {
@@ -54,9 +55,9 @@ export function CatchBoundary() {
 
   if (caught.status === 404) {
     return (
-      <div className="error-container">
+      <ErrorContainer>
         <h1>The plan with id {planId} was not found!</h1>
-      </div>
+      </ErrorContainer>
     );
   } else {
     throw caught;
@@ -67,9 +68,9 @@ export function ErrorBoundary({ error }: { error: Error }) {
   const { planId } = useParams();
 
   return (
-    <div className="error-container">
+    <ErrorContainer>
       <p>There was a problem loading the plan with ID {planId}</p>
       <p>{error.message}</p>
-    </div>
+    </ErrorContainer>
   );
 }

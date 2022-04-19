@@ -1,18 +1,10 @@
-import { Link, LinksFunction } from "remix";
-
-import stylesUrl from "~/styles/index.css";
-
-/**
- * CSS files can be cached long-term and your CSS is naturally code-split
- */
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
+import { Link } from "remix";
+import { Container } from "~/components/layout";
 
 export default function Index() {
   return (
-    <div className="container">
-      <div className="content">
+    <Container>
+      <div className="flex flex-col items-center justify-center">
         <h1>Welcome to Train HQ</h1>
         <nav>
           <ul>
@@ -24,6 +16,6 @@ export default function Index() {
           </ul>
         </nav>
       </div>
-    </div>
+    </Container>
   );
 }

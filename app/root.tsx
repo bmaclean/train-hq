@@ -10,6 +10,7 @@ import {
 import type { MetaFunction, LinksFunction } from "remix";
 
 import styles from "./styles/app.css";
+import { ErrorContainer } from "./components/ui";
 
 /**
  * CSS files can be cached long-term and your CSS is naturally code-split
@@ -80,11 +81,11 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <div className="error-container">
+      <ErrorContainer>
         <h1>
           {caught.status} {caught.statusText}
         </h1>
-      </div>
+      </ErrorContainer>
     </Document>
   );
 }
@@ -96,11 +97,11 @@ export function CatchBoundary() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Ah Shit">
-      <div className="error-container">
+      <ErrorContainer>
         <h1>There was an error with your request.</h1>
         <h2>Our team has been notified, and this will be resolved shortly.</h2>
         <pre>{error.message}</pre>
-      </div>
+      </ErrorContainer>
     </Document>
   );
 }

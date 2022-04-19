@@ -1,5 +1,5 @@
-import { Plan, Prisma } from "@prisma/client";
-import { ActionFunction, Form, json, redirect, useActionData, useCatch } from "remix";
+import { ActionFunction, Form, redirect, useActionData } from "remix";
+import { Button, ErrorContainer } from "~/components/ui";
 
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/response.server";
@@ -71,20 +71,22 @@ export default function NewPlanRoute() {
             />
           </label>
           {actionData?.fieldErrors?.name ? (
-            <p className="form-validation-error" role="alert" id="name-error">
+            <p
+              className="m-0 mt-1 text-red-500 text-xs"
+              role="alert"
+              id="name-error"
+            >
               {actionData.fieldErrors.name}
             </p>
           ) : null}
         </div>
         <div>
           {actionData?.formError ? (
-            <p className="form-validation-error" role="alert">
+            <p className="m-0 mt-1 text-red-500 text-xs" role="alert">
               {actionData.formError}
             </p>
           ) : null}
-          <button type="submit" className="button">
-            Add
-          </button>
+          <Button type="submit">Add</Button>
         </div>
       </Form>
     </div>
@@ -93,9 +95,9 @@ export default function NewPlanRoute() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <div className="error-container">
+    <ErrorContainer>
       <p>There was a problem preparing a new plan.</p>
       <p>{error.message}</p>
-    </div>
+    </ErrorContainer>
   );
 }

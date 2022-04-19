@@ -10,7 +10,7 @@ export function PlanInfo({ plan }: PlanInfoProps) {
     <div>
       <h2>
         {plan?.name}
-        <PlanLikeButton plan={plan} liked={false} />
+        <PlanLikeButton className="h-6 w-6" plan={plan} liked={false} />
       </h2>
     </div>
   );
