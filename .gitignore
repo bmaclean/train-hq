@@ -9,3 +9,4 @@ node_modules
 .vscode/settings.json
 # generated CSS
 app/styles/app.css
+.DS_Store
