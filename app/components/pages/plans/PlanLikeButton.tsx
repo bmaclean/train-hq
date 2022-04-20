@@ -10,22 +10,27 @@ interface PlanLikeButtonProps extends LikeButtonProps {
 
 export function PlanLikeButton({
   plan,
+  isLiked,
   ...likeButtonProps
 }: PlanLikeButtonProps) {
   // submits the form without navigation
   const like = useFetcher();
 
   useEffect(() => {
-    if (like.state === "idle" && like.data?.error) {
+    if (like.type === "done" && like.data?.error) {
       alert(like.data.error);
     }
-  }, [like]);
+  }, [like.type, like.data?.error]);
 
   return (
-    <like.Form action="likes" method="post" className="w-auto inline-flex">
+    <like.Form
+      action={"likes"}
+      method={isLiked ? "delete" : "post"}
+      className="w-auto inline-flex"
+    >
       {/* TODO: `delete` method if currently liked */}
       <input type="hidden" name="planId" value={plan?.id} />
-      <LikeButton type="submit" {...likeButtonProps} />
+      <LikeButton type="submit" isLiked={isLiked} {...likeButtonProps} />
     </like.Form>
   );
 }

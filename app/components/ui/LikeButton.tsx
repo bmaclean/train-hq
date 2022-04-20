@@ -3,10 +3,13 @@ import { HeartPulseFill } from "react-bootstrap-icons";
 
 export interface LikeButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  liked: boolean;
+  isLiked: boolean;
 }
 
-export function LikeButton({ liked, ...props }: LikeButtonProps): JSX.Element {
+export function LikeButton({
+  isLiked,
+  ...props
+}: LikeButtonProps): JSX.Element {
   const [hovered, setHovered] = useState<boolean>(false);
 
   return (
@@ -17,7 +20,7 @@ export function LikeButton({ liked, ...props }: LikeButtonProps): JSX.Element {
     >
       <HeartPulseFill
         className={`${
-          hovered ? "text-red-400" : liked ? "text-red-500" : "text-gray-300"
+          hovered ? "text-red-400" : isLiked ? "text-red-500" : "text-gray-300"
         } transition duration-200 active:scale-95 w-full h-full`}
       />
     </button>

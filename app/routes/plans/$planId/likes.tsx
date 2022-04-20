@@ -6,7 +6,7 @@ import { requireAuth } from "~/utils/session.server";
 export const action: ActionFunction = async ({ request, params }) => {
   const form = await request.formData();
 
-  if (request.method !== "POST") {
+  if (request.method !== "POST" && request.method !== "DELETE") {
     throw new Response(`The method ${form.get("method")} is not supported`, {
       status: 405,
     });
@@ -19,14 +19,22 @@ export const action: ActionFunction = async ({ request, params }) => {
   });
 
   if (!plan) {
-    return json({ error: "You can't like a plan that doesn't exist" }, 404);
-  } else if (plan.likes.map((like) => like.userId).includes(userId)) {
-    return json({ error: "A plan can only be liked once" }, 400);
+    return json({ error: "That plan does not exist" }, 404);
   }
 
-  await db.userLikes.create({
-    data: { userId: userId, likedPlanId: plan.id },
-  });
+  if (request.method === "DELETE") {
+    await db.userLikes.delete({
+      where: { userId_likedPlanId: { userId, likedPlanId: plan.id } },
+    });
+    return json("Plan unliked successfully", 200);
+  } else {
+    if (plan.likes.map((like) => like.userId).includes(userId)) {
+      return json({ error: "A plan can only be liked once" }, 400);
+    }
 
-  return json("Plan liked successfully", 200);
+    await db.userLikes.create({
+      data: { userId: userId, likedPlanId: plan.id },
+    });
+    return json("Plan liked successfully", 200);
+  }
 };

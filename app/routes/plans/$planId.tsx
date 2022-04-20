@@ -3,13 +3,24 @@ import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
-import { PlanInfo } from "~/components/pages/plans";
 import { ErrorContainer } from "~/components/ui";
+import { requireAuth } from "~/utils/session.server";
+import { PlanHeader } from "~/components/pages/plans";
 
-type LoaderData = { plan: Plan };
-export const loader: LoaderFunction = async ({ params: { planId } }) => {
+type LoaderData = { plan: Plan; isLiked: boolean };
+export const loader: LoaderFunction = async ({
+  request,
+  params: { planId },
+}) => {
+  const userId = await requireAuth(request, { redirectTo: "/login" });
+
   const data = {
-    plan: await db.plan.findUnique({ where: { id: planId } }),
+    plan: await db.plan.findUnique({
+      where: { id: planId },
+    }),
+    isLiked: await db.userLikes.findFirst({
+      where: { userId, likedPlanId: planId },
+    }),
   };
 
   if (!data.plan) {
@@ -40,9 +51,9 @@ export const meta: MetaFunction = ({
 };
 
 export default function PlanRoute() {
-  const { plan } = useLoaderData<LoaderData>();
+  const { plan, isLiked } = useLoaderData<LoaderData>();
 
-  return <PlanInfo plan={plan} />;
+  return <PlanHeader plan={plan} isLiked={isLiked} />;
 }
 
 /**
