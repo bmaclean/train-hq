@@ -1,8 +1,7 @@
 import bcrypt from "bcryptjs";
-import { createCookieSessionStorage, json, redirect } from "remix";
+import { createCookieSessionStorage, redirect } from "remix";
 
-import { db } from "~/utils/db.server";
-import { conflict } from "./response.server";
+import { db, conflict } from "~/utils";
 
 interface LoginForm {
   username: string;

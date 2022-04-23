@@ -1,7 +1,7 @@
 import { Plan } from "@prisma/client";
 import type { LoaderFunction } from "remix";
 
-import { db } from "~/utils/db.server";
+import { db } from "~/utils";
 
 type LoaderData = { plan: Plan | null };
 export const loader: LoaderFunction = async ({ params: { planId } }) => {

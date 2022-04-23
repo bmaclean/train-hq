@@ -3,7 +3,7 @@ import { Strava } from "~/utils";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const code = new URLSearchParams(request.url).get("code");
-  console.log({code})
+  console.log({ code });
   if (
     !code ||
     !process.env.STRAVA_CLIENT_ID ||

@@ -1,7 +1,6 @@
 import { json, ActionFunction } from "remix";
 
-import { db } from "~/utils/db.server";
-import { requireAuth } from "~/utils/session.server";
+import { db, requireAuth } from "~/utils";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const form = await request.formData();

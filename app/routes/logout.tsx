@@ -1,7 +1,7 @@
 import type { ActionFunction, LoaderFunction } from "remix";
 import { redirect } from "remix";
 
-import { logout } from "~/utils/session.server";
+import { logout } from "~/utils";
 
 // The reason that we're using an action (rather than a loader) is
 //  because we want to avoid CSRF problems by using a POST request

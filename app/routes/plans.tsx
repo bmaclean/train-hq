@@ -9,11 +9,9 @@ import { Link, Outlet, json, useLoaderData, Form } from "remix";
 import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
-import { getUserFromSession } from "~/utils/session.server";
-import { db } from "~/utils/db.server";
+import { getUserFromSession, db } from "~/utils";
 import { Container } from "~/components/layout";
-import { Button } from "~/components/ui/Button";
-import { BrandLogo } from "~/components/ui";
+import { Button, BrandLogo } from "~/components/ui";
 
 type PlanPreview = Pick<Plan, "id" | "name">;
 

@@ -1,9 +1,7 @@
 import { ActionFunction, Form, redirect, useActionData } from "remix";
 import { Button, ErrorContainer } from "~/components/ui";
 
-import { db } from "~/utils/db.server";
-import { badRequest } from "~/utils/response.server";
-import { requireAuth } from "~/utils/session.server";
+import { db, badRequest, requireAuth } from "~/utils";
 
 function validatePlanName(content: string) {
   if (content.length < 4) {

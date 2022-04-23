@@ -2,9 +2,8 @@ import { json, useLoaderData, useParams, useCatch, MetaFunction } from "remix";
 import type { LoaderFunction } from "remix";
 import type { Plan } from "@prisma/client";
 
-import { db } from "~/utils/db.server";
+import { db, requireAuth } from "~/utils";
 import { ErrorContainer } from "~/components/ui";
-import { requireAuth } from "~/utils/session.server";
 import { PlanHeader } from "~/components/plans";
 
 type LoaderData = { plan: Plan; isLiked: boolean };
