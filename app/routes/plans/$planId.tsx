@@ -5,7 +5,7 @@ import type { Plan } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import { ErrorContainer } from "~/components/ui";
 import { requireAuth } from "~/utils/session.server";
-import { PlanHeader } from "~/components/pages/plans";
+import { PlanHeader } from "~/components/plans";
 
 type LoaderData = { plan: Plan; isLiked: boolean };
 export const loader: LoaderFunction = async ({

@@ -1,9 +1,9 @@
 import { ActionFunction, Form, MetaFunction, useActionData } from "remix";
 import { Link, useSearchParams } from "remix";
 
-import { createUserSession, login, register } from "~/utils/session.server";
-import { badRequest } from "~/utils/response.server";
-import { Button } from "~/components/ui/Button";
+import { createUserSession, login, register, badRequest } from "~/utils";
+import { Button } from "~/components/ui";
+import { StravaAuthForm } from "~/components/auth";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -203,6 +203,7 @@ export default function Login() {
           </div>
           <Button type="submit">Submit</Button>
         </Form>
+        <StravaAuthForm />
       </div>
       <div>
         <ul>
