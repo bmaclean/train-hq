@@ -13,6 +13,7 @@ import { getUserFromSession } from "~/utils/session.server";
 import { db } from "~/utils/db.server";
 import { Container } from "~/components/layout";
 import { Button } from "~/components/ui/Button";
+import { BrandLogo } from "~/components/ui";
 
 type PlanPreview = Pick<Plan, "id" | "name">;
 
@@ -48,7 +49,7 @@ export default function PlansRoute() {
               title="Train HQ"
               aria-label="Train Hq"
             >
-              Train HQ
+              <BrandLogo type="text" className="h-16" />
             </Link>
           </h1>
 

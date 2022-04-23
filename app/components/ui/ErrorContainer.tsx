@@ -1,5 +1,5 @@
-import { ContainerProps } from "@mui/material";
 import classNames from "classnames";
+import { ContainerProps } from "../layout/Container";
 
 export function ErrorContainer({
   className,
