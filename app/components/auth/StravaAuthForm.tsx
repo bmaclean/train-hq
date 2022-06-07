@@ -1,4 +1,5 @@
-import { Form, FormProps } from "remix";
+import type { FormProps } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { StravaConnectButton } from "./StravaConnectButton";
 
 export function StravaAuthForm(props: FormProps) {

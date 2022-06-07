@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from "remix";
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { Strava } from "~/utils";
 
 export const loader: LoaderFunction = async ({ request }) => {

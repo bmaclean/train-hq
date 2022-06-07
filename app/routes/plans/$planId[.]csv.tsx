@@ -1,5 +1,5 @@
-import { Plan } from "@prisma/client";
-import type { LoaderFunction } from "remix";
+import type { Plan } from "@prisma/client";
+import type { LoaderFunction } from "@remix-run/node";
 
 import { db } from "~/utils";
 

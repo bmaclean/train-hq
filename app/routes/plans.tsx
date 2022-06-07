@@ -5,8 +5,9 @@
  * route will be rendered by <Outlet />.
  */
 
-import { Link, Outlet, json, useLoaderData, Form } from "remix";
-import type { LoaderFunction } from "remix";
+import { json } from "@remix-run/node";
+import { useLoaderData, Link, Outlet, Form } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
 import type { Plan } from "@prisma/client";
 
 import { getUserFromSession, db } from "~/utils";
@@ -70,7 +71,7 @@ export default function PlansRoute() {
           <div>
             <p>Here are a few plans to check out:</p>
             <ul>
-              {data.plans.map((plan) => (
+              {data.plans.map((plan: PlanPreview) => (
                 <li key={plan.id}>
                   <Link prefetch="intent" to={plan.id}>
                     {plan.name}

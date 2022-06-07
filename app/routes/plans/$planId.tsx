@@ -1,5 +1,6 @@
-import { json, useLoaderData, useParams, useCatch, MetaFunction } from "remix";
-import type { LoaderFunction } from "remix";
+import { useLoaderData, useParams, useCatch } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { Plan } from "@prisma/client";
 
 import { db, requireAuth } from "~/utils";

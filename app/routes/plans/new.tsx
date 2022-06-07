@@ -1,4 +1,6 @@
-import { ActionFunction, Form, redirect, useActionData } from "remix";
+import { Form, useActionData } from "@remix-run/react";
+import type { ActionFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { Button, ErrorContainer } from "~/components/ui";
 
 import { db, badRequest, requireAuth } from "~/utils";

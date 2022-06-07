@@ -1,6 +1,6 @@
 import { Plan } from "@prisma/client";
 import { useEffect } from "react";
-import { useFetcher } from "remix";
+import { useFetcher } from "@remix-run/react";
 
 import { LikeButton, LikeButtonProps } from "~/components/ui";
 

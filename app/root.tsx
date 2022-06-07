@@ -6,8 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-} from "remix";
-import type { MetaFunction, LinksFunction } from "remix";
+} from "@remix-run/react";
+import type { MetaFunction, LinksFunction } from "@remix-run/node";
 
 import styles from "./styles/app.css";
 import { ErrorContainer } from "./components/ui";
