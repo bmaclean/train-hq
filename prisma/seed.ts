@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 async function seed() {
@@ -8,6 +9,9 @@ async function seed() {
     }),
     ...getUsers().map((user) => {
       return db.user.create({ data: user });
+    }),
+    ...getActivities().map((activity) => {
+      return db.activity.create({ data: activity });
     }),
   ]);
 }
@@ -25,6 +29,24 @@ function getUsers(): Prisma.UserCreateInput[] {
       passwordHash:
         // "twixrox"
         "$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lSsvqNu/1u",
+    },
+  ];
+}
+
+function getActivities(): Prisma.ActivityCreateInput[] {
+  return [
+    {
+      // TODO: rewrite as enum
+      name: "Running",
+      activityTypes: {
+        create: [
+          {
+            name: "Long Run",
+          },
+          { name: "Tempo Run" },
+          { name: "Recovery Run" },
+        ],
+      },
     },
   ];
 }

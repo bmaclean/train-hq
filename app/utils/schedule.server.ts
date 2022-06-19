@@ -1,27 +1,13 @@
-import { addYears, getWeek, setDay, setWeek, startOfWeek, startOfWeekYear } from "date-fns";
-import { addWeeks, isPast } from "date-fns";
+import type { Activity, ActivityType } from "@prisma/client";
+import { addYears, getWeek, setDay, setWeek } from "date-fns";
+import { addWeeks } from "date-fns";
 import { times } from "lodash";
-
-export enum Activity {
-  Running,
-  WeightTraining,
-}
-
-export enum RunningActivityTypes {
-  LongRun,
-  TempoRun,
-  RecoveryRun,
-}
-
-type ActivityType<T extends Activity> = T extends Activity.Running
-  ? RunningActivityTypes
-  : never;
 
 type DayOfTheWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 type TrainingActivity<A extends Activity = Activity> = {
   activity: A;
-  activityType: ActivityType<A>;
+  activityType: ActivityType;
 };
 
 type ActivityDate = {
@@ -58,7 +44,7 @@ export const Schedule = {
     const schedule: ActivityDate[] = [];
 
     const startDate = getStartingDateFromWeek(startWeek);
- 
+
     times(periodInWeeks, (i: number) => {
       const currentWeekDate = addWeeks(startDate, i);
 

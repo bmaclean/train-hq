@@ -45,3 +45,18 @@ model UserLikes {
   likedPlanId String
   likedPlan   Plan @relation(fields: [likedPlanId], references: [id], onDelete: Cascade)
 }
+
+// TODO: rewrite as enums
+
+model Activity {
+  id            String @id @default(uuid())
+  name          String @unique
+  activityTypes ActivityType[]
+}
+
+model ActivityType {
+  id           String @id @default(uuid())
+  name         String @unique
+  activityName String
+  activity     Activity @relation(fields: [activityName], references: [id], onDelete: Cascade)
+}
