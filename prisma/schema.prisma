@@ -22,14 +22,15 @@ model Plan {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  username     String   @unique
-  passwordHash String
-  plans        Plan[] @relation("UserPlan")
-  createdPlans Plan[]
-  likes        UserLikes[]
+  id                String   @id @default(uuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  username          String   @unique
+  passwordHash      String
+  plans             Plan[] @relation("UserPlan")
+  createdPlans      Plan[]
+  createdActivities Activity[]
+  likes             UserLikes[]
 }
 
 model UserPlan {
@@ -52,11 +53,14 @@ model Activity {
   id            String @id @default(uuid())
   name          String @unique
   activityTypes ActivityType[]
+  // for custom activities created by a given user
+  forUserId     String
+  user          User @relation(fields: [forUserId], references: [id], onDelete: Cascade)
 }
 
 model ActivityType {
   id           String @id @default(uuid())
   name         String @unique
-  activityName String
-  activity     Activity @relation(fields: [activityName], references: [id], onDelete: Cascade)
+  activityId   String
+  activity     Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }

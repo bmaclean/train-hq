@@ -36,7 +36,6 @@ function getUsers(): Prisma.UserCreateInput[] {
 function getActivities(): Prisma.ActivityCreateInput[] {
   return [
     {
-      // TODO: rewrite as enum
       name: "Running",
       activityTypes: {
         create: [
