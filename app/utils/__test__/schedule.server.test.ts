@@ -1,16 +1,12 @@
 import { addWeeks, setDay } from "date-fns";
-import {
-  Activity,
-  getStartingDateFromWeek,
-  RunningActivityTypes,
-  Schedule,
-} from "../schedule.server";
+import { getStartingDateFromWeek, Schedule } from "../schedule.server";
 
 describe("Schedule", () => {
   describe("generate", () => {
     beforeAll(() => {
       jest.useFakeTimers();
     });
+
     it("should return an empty schedule for an empty set of days", () => {
       const schedule = Schedule.generate({
         trainingCadence: {},
@@ -24,8 +20,15 @@ describe("Schedule", () => {
       const schedule = Schedule.generate({
         trainingCadence: {
           0: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         periodInWeeks: 0,
@@ -38,8 +41,15 @@ describe("Schedule", () => {
       const schedule = Schedule.generate({
         trainingCadence: {
           0: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            }
           },
         },
         periodInWeeks: 1,
@@ -51,8 +61,15 @@ describe("Schedule", () => {
         {
           date: setDay(date, 0),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
       ]);
@@ -62,12 +79,26 @@ describe("Schedule", () => {
       const schedule = Schedule.generate({
         trainingCadence: {
           0: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
           3: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.TempoRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id-2",
+              name: "Tempo Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         periodInWeeks: 1,
@@ -79,15 +110,29 @@ describe("Schedule", () => {
         {
           date: setDay(date, 0),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         {
           date: setDay(date, 3),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.TempoRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
       ]);
@@ -97,8 +142,15 @@ describe("Schedule", () => {
       const schedule = Schedule.generate({
         trainingCadence: {
           1: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         periodInWeeks: 4,
@@ -110,29 +162,57 @@ describe("Schedule", () => {
         {
           date: addWeeks(date, 0),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         {
           date: addWeeks(date, 1),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         {
           date: addWeeks(date, 2),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
         {
           date: addWeeks(date, 3),
           trainingActivity: {
-            activity: Activity.Running,
-            activityType: RunningActivityTypes.LongRun,
+            activity: {
+              id: "test-activity-id",
+              name: "Running",
+            },
+            activityType: {
+              id: "test-activity-type-id",
+              name: "Long Run",
+              activityId: "test-activity-id",
+            },
           },
         },
       ]);
